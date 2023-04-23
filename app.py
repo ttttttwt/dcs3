@@ -6,9 +6,9 @@ from flask_jwt_extended import JWTManager
 from flask_migrate import Migrate
 from dotenv import load_dotenv # load environment variables from .env file
 
-from resource.user import blp as UserBlueprint
-from resource.active import blp as ActiveBlueprint
-from resource.location import blp as LocationBlueprint
+from resources.user import blp as UserBlueprint
+from resources.active import blp as ActiveBlueprint
+from resources.location import blp as LocationBlueprint
 
 from db import db
 import models # let's db know about all the models
