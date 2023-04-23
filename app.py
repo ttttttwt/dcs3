@@ -30,8 +30,10 @@ def create_app():
     
     db.init_app(app)
     
-    with app.app_context():
-        db.create_all()
+    migrate = Migrate(app, db)
+    
+    # with app.app_context():
+    #     db.create_all()
         
     api = Api(app)
     api.register_blueprint(UserBlueprint) # register the blueprint to the api
