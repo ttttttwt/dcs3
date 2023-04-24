@@ -1,4 +1,4 @@
-# dcs3 wed server
+# dcs3 web server
 
 ## Installation
 pip install -r requirements.txt
