@@ -7,6 +7,8 @@ pip install -r requirements.txt
 flask run
 
 ## migrations database
-flask db init # create migrations folder
+flask db init # create migrations folder 
+
 flask db migrate # create migrations
+
 flask db upgrade # create database or update
