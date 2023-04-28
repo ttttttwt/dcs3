@@ -7,8 +7,10 @@ from sqlalchemy import or_
 from db import db
 from models import ActiveModel
 from models import UserModel
+from models import LocationModel
 
 from schemas import ActiveSchema
+
 
 
 blp = Blueprint("Actives", "actives", description="Operations on actives")
@@ -46,5 +48,27 @@ class AddActive(MethodView):
         db.session.commit()
         
         return {"message": "Active created successfully."}, 201
+    
+# count distance
+@blp.route("/count-distance/<int:active_id>")
+class CountDistance(MethodView):
+    
+    @blp.response(200, ActiveSchema)
+    def get(self, active_id):
+        active = ActiveModel.query.filter_by(id=active_id).first()
+        
+        if not active:
+            abort(404, message=f"active_id {active_id} not found")
+            
+        locations = LocationModel.query.filter_by(active_id=active_id).all()
+        
+        if not locations:
+            abort(404, message=f"no location not found")
+            
+        distance = 0
+        
+        
+            
+        return active
     
     
