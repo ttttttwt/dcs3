@@ -43,7 +43,7 @@ class UserLogin(MethodView):
         user = UserModel.query.filter_by(username=user_data["username"]).first()
         
         if user and user.password == user_data["password"]:
-            return {"id:": user.id}, 200
+            return {"id": user.id}, 200
         
         abort(401, message="Invalid credentials.")
     
