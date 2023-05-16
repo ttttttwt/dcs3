@@ -10,15 +10,25 @@ class UserSchema(Schema):
 class UserLoginSchema(Schema):
     username = fields.Str(required=True)
     password = fields.Str(required=True, load_only=True)
+
+class UserUpdateSchema(Schema):
+    username = fields.Str()
+    email = fields.Str()
+    password = fields.Str(load_only=True)
     
 class ActiveSchema(Schema):
     id = fields.Int(dump_only=True)
     user_id = fields.Int(required=True)
     date = fields.DateTime(format='%Y-%m-%d')
+    time = fields.Float()
+    distance = fields.Float()
+    speed = fields.Float()
 
 class UpdateActiveSchema(Schema):
     user_id = fields.Int(required=True)
     distance = fields.Float(required=True)
+    
+    
     
 class LocationSchema(Schema):
     id = fields.Int(dump_only=True)

@@ -8,4 +8,6 @@ class ActiveModel(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     date = db.Column(db.DateTime, nullable=False)
     distance = db.Column(db.Float)
+    time = db.Column(db.Float)
+    speed = db.Column(db.Float)
     
