@@ -25,24 +25,25 @@ class Location(MethodView):
             
         return locations, 200
     
-@blp.route("/add-location/")
+@blp.route("/add-location/<int:active_id>")
 class AddLocation(MethodView):
     
-    @blp.arguments(LocationSchema)
-    def post(self, location_data):
+    @blp.arguments(LocationSchema(many=True))
+    def post(self, location_datas, active_id):
         if not ActiveModel.query.filter(
-                ActiveModel.id == location_data["active_id"],
+                ActiveModel.id == active_id,
             ).first():
             abort(409, message="active_id not found.")
-            
-        location = LocationModel(
-            active_id=location_data["active_id"],
-            latitude=location_data["latitude"],
-            distance=location_data["distance"],
-            time = location_data["time"],
-        )
         
-        db.session.add(location)
+        for location_data in location_datas:
+            location = LocationModel(
+                active_id=active_id,
+                latitude=location_data["latitude"],
+                longitude=location_data["longitude"],
+                time = location_data["time"],
+            )
+            db.session.add(location)
+        
         db.session.commit()
         
         return {"message": "Location created successfully."}, 201

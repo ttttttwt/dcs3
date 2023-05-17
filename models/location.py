@@ -7,5 +7,5 @@ class LocationModel(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     active_id = db.Column(db.Integer, db.ForeignKey('actives.id'), nullable=False)
     latitude = db.Column(db.Float, nullable=False)
-    distance = db.Column(db.Float, nullable=False)
+    longitude = db.Column(db.Float, nullable=False)
     time = db.Column(db.DateTime, nullable=False)

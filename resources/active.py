@@ -52,7 +52,7 @@ class AddActive(MethodView):
         db.session.add(active)
         db.session.commit()
         
-        return {"message": "Active created successfully."}, 201
+        return {"message": "Active created successfully.", "id": active.id}, 201
     
 # count distance
 @blp.route("/count-distance/<int:active_id>")
@@ -104,152 +104,48 @@ class Statistical(MethodView):
                 time += active.time
                 
         try:
-            distance = distance / len(actives)
+            average_speed = average_speed / len(actives)
         except:
-            distance = 0 
+            average_speed = 0
+             
         return {"distance": distance, "average_speed": average_speed, "time": time}, 200
     
 @blp.route("/get-day-of-week/<int:user_id>")
-class getDayOfWeek(MethodView):
-    
+class getWeek(MethodView):
+
     @blp.response(200)
-    def get(self, user_id,):
-        
-        temp = [None, None, None, None, None, None, None]
-        currunt_date = datetime.datetime.now()
-        before = None
-        day_of_week = currunt_date.weekday()
-        if day_of_week == 0:
-            before = currunt_date
-            temp[0] = ActiveModel.query.filter_by(user_id=user_id, date=currunt_date.strftime('%Y-%m-%d')).first()
-        elif day_of_week == 1:
-            before = currunt_date - datetime.timedelta(days=1)
-            temp[1] = ActiveModel.query.filter_by(user_id=user_id, date=currunt_date.strftime('%Y-%m-%d')).first()
-            temp[0] = ActiveModel.query.filter_by(user_id=user_id, date=before.strftime('%Y-%m-%d')).first()
-            
-        elif day_of_week == 2:
-            before = currunt_date - datetime.timedelta(days=2)
-            temp[2] = ActiveModel.query.filter_by(user_id=user_id, date=currunt_date.strftime('%Y-%m-%d')).first()
-            temp[1] = ActiveModel.query.filter_by(user_id=user_id, date=before + datetime.timedelta(days=1)).first()
-            temp[0] = ActiveModel.query.filter_by(user_id=user_id, date=before.strftime('%Y-%m-%d')).first()
-        
-        elif day_of_week == 3:
-            before = currunt_date - datetime.timedelta(days=3)
-            temp[3] = ActiveModel.query.filter_by(user_id=user_id, date=currunt_date.strftime('%Y-%m-%d')).first()
-            temp[2] = ActiveModel.query.filter_by(user_id=user_id, date=before + datetime.timedelta(days=1)).first()
-            temp[1] = ActiveModel.query.filter_by(user_id=user_id, date=before + datetime.timedelta(days=2)).first()
-            temp[0] = ActiveModel.query.filter_by(user_id=user_id, date=before.strftime('%Y-%m-%d')).first()
-            
-        elif day_of_week == 4:
-            before = currunt_date - datetime.timedelta(days=4)
-            temp[4] = ActiveModel.query.filter_by(user_id=user_id, date=currunt_date.strftime('%Y-%m-%d')).first()
-            temp[3] = ActiveModel.query.filter_by(user_id=user_id, date=before + datetime.timedelta(days=1)).first()
-            temp[2] = ActiveModel.query.filter_by(user_id=user_id, date=before + datetime.timedelta(days=2)).first()
-            temp[1] = ActiveModel.query.filter_by(user_id=user_id, date=before + datetime.timedelta(days=3)).first()
-            temp[0] = ActiveModel.query.filter_by(user_id=user_id, date=before.strftime('%Y-%m-%d')).first()
-            
-        elif day_of_week == 5:
-            before = currunt_date - datetime.timedelta(days=5)
-            temp[5] = ActiveModel.query.filter_by(user_id=user_id, date=currunt_date.strftime('%Y-%m-%d')).first()
-            temp[4] = ActiveModel.query.filter_by(user_id=user_id, date=before + datetime.timedelta(days=1)).first()
-            temp[3] = ActiveModel.query.filter_by(user_id=user_id, date=before + datetime.timedelta(days=2)).first()
-            temp[2] = ActiveModel.query.filter_by(user_id=user_id, date=before + datetime.timedelta(days=3)).first()
-            temp[1] = ActiveModel.query.filter_by(user_id=user_id, date=before + datetime.timedelta(days=4)).first()
-            temp[0] = ActiveModel.query.filter_by(user_id=user_id, date=before.strftime('%Y-%m-%d')).first()
-            
-        elif day_of_week == 6:
-            before = currunt_date - datetime.timedelta(days=6)
-        
-            temp[6] = ActiveModel.query.filter_by(user_id=user_id, date=currunt_date.strftime('%Y-%m-%d')).first()
-            temp[5] = ActiveModel.query.filter_by(user_id=user_id, date=before + datetime.timedelta(days=1)).first()
-            temp[4] = ActiveModel.query.filter_by(user_id=user_id, date=before + datetime.timedelta(days=2)).first()
-            temp[3] = ActiveModel.query.filter_by(user_id=user_id, date=before + datetime.timedelta(days=3)).first()
-            temp[2] = ActiveModel.query.filter_by(user_id=user_id, date=before + datetime.timedelta(days=4)).first()
-            temp[1] = ActiveModel.query.filter_by(user_id=user_id, date=before + datetime.timedelta(days=5)).first()
-            temp[0] = ActiveModel.query.filter_by(user_id=user_id, date=before.strftime('%Y-%m-%d')).first()
-            
-            
-        result = {}
-        for i in range(len(temp)):
-            if temp[i] is not None:
-                result[f"day_{i}"] = 1
-            else:
-                result[f"day_{i}"] = 0
-                
-        
-        return result, 200
-        
-@blp.route("/get-day-of-week-distance/<int:user_id>")
-class getDayOfWeekDitance(MethodView):
-    
-    @blp.response(200)
-    def get(self, user_id,):
-        
-        temp = [None, None, None, None, None, None, None]
-        currunt_date = datetime.datetime.now()
-        before = None
-        day_of_week = currunt_date.weekday()
-        if day_of_week == 0:
-            before = currunt_date
-            temp[0] = ActiveModel.query.filter_by(user_id=user_id, date=currunt_date.strftime('%Y-%m-%d')).all()
-        elif day_of_week == 1:
-            before = currunt_date - datetime.timedelta(days=1)
-            temp[1] = ActiveModel.query.filter_by(user_id=user_id, date=currunt_date.strftime('%Y-%m-%d')).all()
-            temp[0] = ActiveModel.query.filter_by(user_id=user_id, date=before.strftime('%Y-%m-%d')).all()
-            
-        elif day_of_week == 2:
-            before = currunt_date - datetime.timedelta(days=2)
-            temp[2] = ActiveModel.query.filter_by(user_id=user_id, date=currunt_date.strftime('%Y-%m-%d')).all()
-            temp[1] = ActiveModel.query.filter_by(user_id=user_id, date=before + datetime.timedelta(days=1)).all()
-            temp[0] = ActiveModel.query.filter_by(user_id=user_id, date=before.strftime('%Y-%m-%d')).all()
-        
-        elif day_of_week == 3:
-            before = currunt_date - datetime.timedelta(days=3)
-            temp[3] = ActiveModel.query.filter_by(user_id=user_id, date=currunt_date.strftime('%Y-%m-%d')).all()
-            temp[2] = ActiveModel.query.filter_by(user_id=user_id, date=before + datetime.timedelta(days=1)).all()
-            temp[1] = ActiveModel.query.filter_by(user_id=user_id, date=before + datetime.timedelta(days=2)).all()
-            temp[0] = ActiveModel.query.filter_by(user_id=user_id, date=before.strftime('%Y-%m-%d')).all()
-            
-        elif day_of_week == 4:
-            before = currunt_date - datetime.timedelta(days=4)
-            temp[4] = ActiveModel.query.filter_by(user_id=user_id, date=currunt_date.strftime('%Y-%m-%d')).all()
-            temp[3] = ActiveModel.query.filter_by(user_id=user_id, date=before + datetime.timedelta(days=1)).all()
-            temp[2] = ActiveModel.query.filter_by(user_id=user_id, date=before + datetime.timedelta(days=2)).all()
-            temp[1] = ActiveModel.query.filter_by(user_id=user_id, date=before + datetime.timedelta(days=3)).all()
-            temp[0] = ActiveModel.query.filter_by(user_id=user_id, date=before.strftime('%Y-%m-%d')).all()
-            
-        elif day_of_week == 5:
-            before = currunt_date - datetime.timedelta(days=5)
-            temp[5] = ActiveModel.query.filter_by(user_id=user_id, date=currunt_date.strftime('%Y-%m-%d')).all()
-            temp[4] = ActiveModel.query.filter_by(user_id=user_id, date=before + datetime.timedelta(days=1)).all()
-            temp[3] = ActiveModel.query.filter_by(user_id=user_id, date=before + datetime.timedelta(days=2)).all()
-            temp[2] = ActiveModel.query.filter_by(user_id=user_id, date=before + datetime.timedelta(days=3)).all()
-            temp[1] = ActiveModel.query.filter_by(user_id=user_id, date=before + datetime.timedelta(days=4)).all()
-            temp[0] = ActiveModel.query.filter_by(user_id=user_id, date=before.strftime('%Y-%m-%d')).all()
-            
-        elif day_of_week == 6:
-            before = currunt_date - datetime.timedelta(days=6)
-        
-            temp[6] = ActiveModel.query.filter_by(user_id=user_id, date=currunt_date.strftime('%Y-%m-%d')).all()
-            temp[5] = ActiveModel.query.filter_by(user_id=user_id, date=before + datetime.timedelta(days=1)).all()
-            temp[4] = ActiveModel.query.filter_by(user_id=user_id, date=before + datetime.timedelta(days=2)).all()
-            temp[3] = ActiveModel.query.filter_by(user_id=user_id, date=before + datetime.timedelta(days=3)).all()
-            temp[2] = ActiveModel.query.filter_by(user_id=user_id, date=before + datetime.timedelta(days=4)).all()
-            temp[1] = ActiveModel.query.filter_by(user_id=user_id, date=before + datetime.timedelta(days=5)).all()
-            temp[0] = ActiveModel.query.filter_by(user_id=user_id, date=before.strftime('%Y-%m-%d')).all()
-            
-            
+    def get(self, user_id):
         result = {"day_0": 0, "day_1": 0, "day_2": 0, "day_3": 0, "day_4": 0, "day_5": 0, "day_6": 0}
-        for i in range(len(temp)):
-            if temp[i] is not None:
-                for active in temp[i]: # type: ignore
+        current_date = datetime.datetime.now()
+        start_of_week = current_date - datetime.timedelta(days=current_date.weekday())
+
+        for i in range(7):
+            target_date = start_of_week + datetime.timedelta(days=i)
+            actives = ActiveModel.query.filter_by(user_id=user_id, date=target_date.strftime('%Y-%m-%d')).all()
+
+            if actives:
+                for active in actives:
+                        result[f"day_{i}"] = 1
+
+        return result, 200
+
+        
+@blp.route("/get-day-week-distance/<int:user_id>")
+class getWeekDistance(MethodView):
+
+    @blp.response(200)
+    def get(self, user_id):
+        result = {"day_0": 0, "day_1": 0, "day_2": 0, "day_3": 0, "day_4": 0, "day_5": 0, "day_6": 0}
+        current_date = datetime.datetime.now()
+        start_of_week = current_date - datetime.timedelta(days=current_date.weekday())
+
+        for i in range(7):
+            target_date = start_of_week + datetime.timedelta(days=i)
+            actives = ActiveModel.query.filter_by(user_id=user_id, date=target_date.strftime('%Y-%m-%d')).all()
+
+            if actives:
+                for active in actives:
                     if active.distance is not None:
                         result[f"day_{i}"] += active.distance
-                    else:
-                        result[f"day_{i}"] += 0
-            else:
-                result[f"day_{i}"] = 0
-                
-        
+
         return result, 200
-        

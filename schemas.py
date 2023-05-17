@@ -34,8 +34,8 @@ class LocationSchema(Schema):
     id = fields.Int(dump_only=True)
     active_id = fields.Int(required=True)
     latitude = fields.Float(required=True)
-    distance = fields.Float(required=True)
-    time = fields.DateTime(format='%Y-%m-%d %H:%M:%S', required=True)
+    longitude = fields.Float(required=True)
+    time = fields.DateTime(format='%Y-%m-%d', required=True)
     
 # class AddLocationSchema(Schema):
 #     active_id = fields.Int(required=True)
