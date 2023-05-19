@@ -25,6 +25,9 @@ class Location(MethodView):
             
         return locations, 200
     
+
+
+    
 @blp.route("/add-location/<int:active_id>")
 class AddLocation(MethodView):
     

@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}
+Table of user
+{% endblock title %}
+
+{% block content %}
+
+
+
+<div class="container-fluid">
+    <h1 class="mb-4">Has: <span class="text-warning" >{{num_users}}</span> user</h1>
+    <a href="/admin/user/create" class="btn btn-success mb-4">Create User</a>
+<div class="card mb-4">
+    <div class="card-header">
+        <i class="fas fa-table me-1"></i>
+        User Table
+    </div>
+    <div class="card-body">
+        <table id="myTable" class="display">
+            <thead>
+                <tr>
+                    <th>UserId:</th>
+                    <th>Username</th>
+                    <th>Email:</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                    <th>Statistical</th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <th>UserId:</th>
+                    <th>Username</th>
+                    <th>Email:</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                    <th>Statistical</th>
+                </tr>
+            </tfoot>
+            <tbody>
+                {% for user in  users%}
+                <tr>
+                    <td>{{user.id}}</td>
+                    <td>{{user.username}}</td>
+                    <td>{{user.email}}</td>
+                    <td><a class='btn btn-warning' href="/admin/user/update/{{user.id}}">Edit</a></td>
+                    <td><a class='btn btn-danger' href="/admin/user/delete/{{user.id}}">Delete</a></td>
+                    <td><a class='btn btn-success' href="/admin/user/statiscal/{{user.id}}">Statistical</a></td>
+
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock content %}
+    

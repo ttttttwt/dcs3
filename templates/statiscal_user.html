@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title %}statistical user{% endblock title %}
+{% block content %}
+
+<div class="container-fluid">
+    
+<div class="card mb-4">
+    <div class="card-header">
+        <i class="fas fa-table me-1"></i>
+       Distance of week
+    </div>
+    <div class="card-body">
+        <canvas id="distanceChartOfWeek">
+        </canvas>
+    </div>
+</div>
+
+<script>
+    const ctx = document.getElementById('distanceChartOfWeek');
+
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+      datasets: [{
+        label: 'Km',
+        data: {{distance}},
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+</script>
+
+{% endblock content %}
+
+

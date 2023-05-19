@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block title %}Update user{% endblock title %}
+{% block content %}
+
+
+
+<div class="container-fluid">
+    <form method="post">
+
+        <div class="mb-3">
+            <label for="userid" class="form-label">UserID</label>
+            <input name="id" type="text" class="form-control" id="userid" aria-describedby="userid" disabled>
+        </div>
+
+        <div class="mb-3">
+            <label for="username" class="form-label">username</label>
+            <input name="username" type="text" class="form-control" id="username" aria-describedby="username">
+        </div>
+
+        <div class="mb-3">
+          <label for="exampleInputEmail1" class="form-label">Email address</label>
+          <input name="email" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+        </div>
+        
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+</div>
+
+<script>
+    {% if error %}
+        alert("{{error}}");
+    {% endif %}
+    document.getElementById("userid").value = "{{id}}";
+</script>
+
+{% endblock content %}
+
+

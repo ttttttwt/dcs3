@@ -54,25 +54,6 @@ class AddActive(MethodView):
         
         return {"message": "Active created successfully.", "id": active.id}, 201
     
-# count distance
-@blp.route("/count-distance/<int:active_id>")
-class CountDistance(MethodView):
-    
-    @blp.response(200, ActiveSchema)
-    def get(self, active_id):
-        active = ActiveModel.query.filter_by(id=active_id).first()
-        
-        if not active:
-            abort(404, message=f"active_id {active_id} not found")
-            
-        locations = LocationModel.query.filter_by(active_id=active_id).all()
-        
-        if not locations:
-            abort(404, message=f"no location not found")
-            
-        distance = 0
-       
-        return active
 
 @blp.route("/statistical/<int:user_id>")
 class Statistical(MethodView):
@@ -130,7 +111,7 @@ class getWeek(MethodView):
         return result, 200
 
         
-@blp.route("/get-day-week-distance/<int:user_id>")
+@blp.route("/get-day-of-week-distance/<int:user_id>")
 class getWeekDistance(MethodView):
 
     @blp.response(200)
@@ -145,7 +126,7 @@ class getWeekDistance(MethodView):
 
             if actives:
                 for active in actives:
-                    if active.distance is not None:
+                    if active.distance:
                         result[f"day_{i}"] += active.distance
 
         return result, 200
